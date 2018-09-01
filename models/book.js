@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bookSchema = new mongoose.Schema({
   title: String,
   subtitle: String,
+  image: String,
   series: String,
   course: String,
   lops16: Boolean,

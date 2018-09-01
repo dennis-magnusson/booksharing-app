@@ -1,17 +1,116 @@
 <% include ../partials/header %>
 <% include ../partials/navbar %>
+<script>
+
+$(document).ready(function(){
+
+    // Semantic UI INITIALIZERS
+    $('select.dropdown').dropdown();
+    $('.ui.rating').rating({initialRating: 2, maxRating: 4});
+
+    // Prevent user from inputting price that is below 0
+    $('#price').focusout(function(){
+        if($('#price').val() < 0){
+            $('#price').val(1);
+        }
+        if($('#price').val() > 100){
+            $('#price').val(100);
+        }
+    });
+
+    // Prevent submitting by clicking enter
+    $(document).ready(function() {
+    $(window).keydown(function(event){
+        if(event.keyCode == 13) {
+        event.preventDefault();
+        return false;
+        }
+    });
+    });
+
+
+
+    
+
+    //Get value from an input field
+    function getFieldValue(fieldId) { 
+        // 'get field' is part of Semantics form behavior API
+        return $('.ui.form').form('get field', fieldId).val();
+    }
+
+    function submitForm() {
+        if($(".ui.form").form("is valid")){
+            // $('#form').addClass('loading');
+        const formData = {
+            book_id: getFieldValue('book_id'),
+            price: getFieldValue('price'),
+            description: getFieldValue('description'),
+            condition: $('.ui.rating').rating('get rating')
+        };
+        console.log(formData)
+
+        $.ajax({ type: 'POST', url: '/ilmoitukset', data: formData, success: onFormSubmitted });
+        } else {
+            $(".ui.form").form("validate form")
+        }
+    }
+
+    // Handle post response
+    function onFormSubmitted(res) {
+        if(res.success){
+            window.location.href = res.redirect
+        } else {
+            console.log(res.error)
+        }
+    }
+
+    $('#submit').click(function(e){
+        e.preventDefault();
+        submitForm();
+    });
+
+    $('.ui.form').form({
+        fields: {
+            book_id: {
+                identifier: "book_id",
+                rules:[{
+                    type:"empty",
+                    prompt: "Valitse kirja"
+                }]
+            },
+            price: {
+                identifier: "price",
+                rules:[{
+                    type:"integer[1..100]",
+                    prompt: "Hinta puuttuu tai se ei kelpaa"
+                }]
+            },
+            description: {
+                identifier: "description",
+                rules:[{
+                    type:"empty",
+                    prompt: "Kirjoita lyhyt kuvaus"
+                }]
+            },
+        }
+    });
+
+
+});
+
+</script>
 
 <div class="ui container">
-    <h1>Myy Oppikirja</h1>
+    <h1>Luo uusi ilmoitus</h1>
 
     <div class="ui segment">
 
-    <form class="ui large form" action="/listings" method="POST">
+    <form id="form" class="ui large form" method="post" action="/ilmoitukset">
 
         <div class="fields">
             <div class="sixteen wide field">
-                <label>Oppikirja jota myyt</label>
-                <select class="ui search dropdown">
+                <label>Oppikirja jota myyt (Kaikki kirjat ovat LOPS16 painoksia)</label>
+                <select class="ui search dropdown" id="book_id" data-validate="book_id" name="book_id">
                     <option value="">Hae Oppikirjaa</option>
       
                     <% books.forEach(function(book){ %>
@@ -27,7 +126,7 @@
                 <label>Myyntihinta</label>
                 <div class="ui right labeled input">
                     <input type="number" min="1" max="100" placeholder="Hinta" name="price" id="price">
-                    <div class="ui label">€</div>
+                    <div class="ui label basic">€</div>
                 </div>
             </div>
             <div class="field four wide">
@@ -41,11 +140,12 @@
         <div class="fields">
             <div class="field sixteen wide">
                 <label>Vapaa kuvaus</label>
-                <textarea rows="2"></textarea>
+                <textarea rows="2" name="description" id="description"></textarea>
             </div>
         </div>
     
-        <button class="ui button orange" type="submit">Lähetä</button>
+        <button class="ui button orange" id="submit">Lähetä</button>
+        <div class="ui error message"></div>
     </form>
     </div>
 
@@ -54,14 +154,6 @@
 </div>
 
 <script>
-$('select.dropdown').dropdown();
-$('.ui.rating').rating({initialRating: 2, maxRating: 4});
-
-$('#price').focusout(function(){
-    if($('#price').val() < 0 || $('#price').isNaN()){
-        $('#price').val(1);
-    }
-})
 
 </script>
 

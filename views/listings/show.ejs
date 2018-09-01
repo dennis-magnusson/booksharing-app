@@ -1,0 +1,71 @@
+<% include ../partials/header %>
+<% include ../partials/navbar %>
+
+<div class="ui container">
+
+    <a class="ui button inline orange medium back-button" href="/ilmoitukset"><i class="ui icon chevron left"></i>Palaa</a>
+
+    <div class="ui segment outer-container">
+        <div class="ui stackable grid">
+
+            <div class="six wide column">
+                <img class="ui medium bordered image" src="<%= listing.book.image %>">
+            </div>
+
+            <div class="ten wide column">
+                <h1 class="ui header">
+                    <%= listing.book.title %>
+                    <% if(listing.book.subtitle !== "") { %>
+                        - <%= listing.book.subtitle %>
+                    <% } %>
+                    <% if(listing.book.lops16) { %>
+                         <div class="ui medium red label">LOPS2016</div>
+                    <% } %>
+                </h1>
+
+                <div class="ui segments">
+                <div class="ui segment">
+                        <p>Hinta: <span class="price-text info-text"><%= listing.price %>€</span></p>
+                    </div>
+                    <div class="ui segment">
+                        <p>Kustantaja: <span class="info-text"><%= listing.book.publisher %></span></p>
+                    </div>
+                    <div class="ui segment">
+                        <p>Kirjasarja: <span class="info-text"><%= listing.book.series %></span></p>
+                    </div>
+                    <div class="ui segment">
+                        <p>Oppiaine: <span class="info-text"><%= listing.book.subject.name %></span></p>
+                    </div>
+                    <div class="ui segment">
+                        <p style="float:left; margin-bottom:14px;">Kunto:</p><div style="float:right;" class="ui star huge rating inline" data-rating="<%= listing.condition %>"></div>
+                    </div>
+                </div>
+
+                <div class="ui segment">
+                    <h5>Kuvaus</h5>
+                    <p><%= listing.description %></p>
+                </div>
+
+                <div class="ui segment">
+                    <h5>Myyjä</h5>
+                    <p class="seller-info">Etunimi Sukunimi - Helsingin Luonnontiedelukio</p>
+                    <a class="ui button inline orange medium">Ota yhteyttä myyjään <i class="ui icon chevron right"></i></a>
+                </div>
+
+                
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+$('.ui.rating').rating({
+    interactive: false,
+});
+
+</script>
+<% include ../partials/footer %>

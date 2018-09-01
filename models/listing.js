@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 
 const listingSchema = new mongoose.Schema({
-  book: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Book"
-  },
+  book: {type: mongoose.Schema.Types.ObjectId, ref: 'Book'},
   price: Number,
   condition: Number,
   description: String,

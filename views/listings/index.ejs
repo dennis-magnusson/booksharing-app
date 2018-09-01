@@ -3,7 +3,7 @@
 
 <div class="ui container">
     <h1>Helsingin Luonnontiedelukio</h1>
-    <div class="ui grid">
+    <div class="ui grid stackable">
         <div class="four wide column">
             <% include ../partials/sidemenu %>
         </div>
@@ -19,30 +19,49 @@
                     </div>
                 </div>
             </div>
-            <hr>
             
-            <div class="ui items">
+            <div class="results-grid">
 
             <% listings.forEach((listing) => { %>
 
-                <div class="item book-listing">
+                <div class="book-listing">
+                    <!--
                     <div class="ui tiny image rounded">
                         <img src="<%= listing.img %>">
                     </div>
                     <div class="content">
-                        <a class="header"><%= listing.name %> - <span class="publisher"><%= listing.publisher %></span></a>
-                        <% if(listing.lops2016){ %>
+                        <a class="header"><%= listing.book.title %>  - <span class="publisher"><%= listing.book.publisher %></span></a>
+                        <% if(listing.book.lops16){ %>
                             <div class="meta">
                                 <div class="ui tiny red label">LOPS16</div>
                             </div>
                         <% } %>
                         <div class="description">
-                            <p><%= listing.category %></p>
+                            <p><%=  %></p>
                         </div>
                         <div class="extra">
-                            Myyjä: <%= listing.seller.name %>
+                            Myyjä: <%=  %>
                         </div>
                     </div>
+                    <div class="content middle aligned">
+                        <div class="header"><%= listing.price%>€</div>
+                    </div>
+                    -->
+
+                    <div class="listing-image">
+                        <img src="<%= listing.book.image %>">
+                    </div>
+                    <div class="inner-container">
+                        <div class="title"><%= listing.book.title %></div>
+                        <div class="publisher">
+                            <%= listing.book.publisher %>
+                        </div>
+                        <div class="rating">Kunto: <div class="ui star rating" data-rating="<%= listing.condition %>"></div></div>
+                        <div class="seller-name">Myyjä: Etunimi Sukunimi</div>
+                        <div class="link-button"><a class="ui button mini orange" href="/ilmoitukset/<%= listing._id %>">Ilmoitukseen <i class="chevron right icon"></i></a></div>
+                        <div class="price"><%= listing.price %>€</div>
+                    </div>
+
                 </div>
             <% }) %>
 
@@ -52,4 +71,11 @@
     </div>
 </div>
 
+<script>
+
+$('.ui.rating').rating({
+    interactive: false,
+});
+
+</script>
 <% include ../partials/footer %>
