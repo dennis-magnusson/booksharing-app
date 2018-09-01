@@ -1,0 +1,68 @@
+<% include ../partials/header %>
+<% include ../partials/navbar %>
+
+<div class="ui container">
+    <h1>Myy Oppikirja</h1>
+
+    <div class="ui segment">
+
+    <form class="ui large form" action="/listings" method="POST">
+
+        <div class="fields">
+            <div class="sixteen wide field">
+                <label>Oppikirja jota myyt</label>
+                <select class="ui search dropdown">
+                    <option value="">Hae Oppikirjaa</option>
+      
+                    <% books.forEach(function(book){ %>
+
+                    <option value="<%= book._id %>"><%= book.title %> - <%= book.publisher %></option>
+
+                    <% }) %>
+                </select>
+            </div>
+        </div>
+        <div class="fields">
+            <div class="field four wide">
+                <label>Myyntihinta</label>
+                <div class="ui right labeled input">
+                    <input type="number" min="1" max="100" placeholder="Hinta" name="price" id="price">
+                    <div class="ui label">€</div>
+                </div>
+            </div>
+            <div class="field four wide">
+                <label>Kirjan kunto</label>
+                <div class="centered-rating">
+                    <div class="ui massive star rating"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fields">
+            <div class="field sixteen wide">
+                <label>Vapaa kuvaus</label>
+                <textarea rows="2"></textarea>
+            </div>
+        </div>
+    
+        <button class="ui button orange" type="submit">Lähetä</button>
+    </form>
+    </div>
+
+    
+
+</div>
+
+<script>
+$('select.dropdown').dropdown();
+$('.ui.rating').rating({initialRating: 2, maxRating: 4});
+
+$('#price').focusout(function(){
+    if($('#price').val() < 0 || $('#price').isNaN()){
+        $('#price').val(1);
+    }
+})
+
+</script>
+
+<% include ../partials/footer %>

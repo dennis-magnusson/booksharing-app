@@ -1,0 +1,55 @@
+<% include ../partials/header %>
+<% include ../partials/navbar %>
+
+<div class="ui container">
+    <h1>Helsingin Luonnontiedelukio</h1>
+    <div class="ui grid">
+        <div class="four wide column">
+            <% include ../partials/sidemenu %>
+        </div>
+        <div class="twelve wide column">
+            <div class="ui text menu">
+                <div class="item">
+                    <h3>Uusimmat</h3>
+                </div>        
+                <div class="ui right item">
+                    <div class="ui icon input">
+                    <input type="text" placeholder="Hae">
+                    <i class="search icon"></i>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            
+            <div class="ui items">
+
+            <% listings.forEach((listing) => { %>
+
+                <div class="item book-listing">
+                    <div class="ui tiny image rounded">
+                        <img src="<%= listing.img %>">
+                    </div>
+                    <div class="content">
+                        <a class="header"><%= listing.name %> - <span class="publisher"><%= listing.publisher %></span></a>
+                        <% if(listing.lops2016){ %>
+                            <div class="meta">
+                                <div class="ui tiny red label">LOPS16</div>
+                            </div>
+                        <% } %>
+                        <div class="description">
+                            <p><%= listing.category %></p>
+                        </div>
+                        <div class="extra">
+                            Myyjä: <%= listing.seller.name %>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<% include ../partials/footer %>
